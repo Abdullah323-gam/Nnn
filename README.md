@@ -1,117 +1,142 @@
+local Player = game:GetService("Players").LocalPlayer
+local PlayerGui = Player:WaitForChild("PlayerGui")
+
+if PlayerGui:FindFirstChild("AbdullahHub") then
+    PlayerGui.AbdullahHub:Destroy()
+end
+
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
 local SpeedInput = Instance.new("TextBox")
 local JumpInput = Instance.new("TextBox")
-local InfJumpButton = Instance.new("TextButton")
-local FlyButton = Instance.new("TextButton")
-local FlingButton = Instance.new("TextButton")
-local NoclipButton = Instance.new("TextButton")
-local ESPButton = Instance.new("TextButton")
-local MinimizeButton = Instance.new("TextButton")
+local InfJumpBtn = Instance.new("TextButton")
+local NoclipBtn = Instance.new("TextButton")
+local ESPBtn = Instance.new("TextButton")
 local MiniBall = Instance.new("TextButton")
 local UICorner = Instance.new("UICorner")
+local MiniCorner = Instance.new("UICorner")
 
--- إعدادات الشاشة (نقلناها من المنتصف لليسار قليلاً)
-ScreenGui.Parent = game:GetService("CoreGui")
+ScreenGui.Name = "AbdullahHub"
+ScreenGui.Parent = PlayerGui
+ScreenGui.ResetOnSpawn = false
+
+MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-MainFrame.Position = UDim2.new(0.1, 0, 0.3, 0) -- موضع جانبي
-MainFrame.Size = UDim2.new(0, 180, 0, 320)
+MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+MainFrame.Position = UDim2.new(0.1, 0, 0.2, 0)
+MainFrame.Size = UDim2.new(0, 170, 0, 280)
 MainFrame.Active = true
 MainFrame.Draggable = true
 
--- تصميم الكرة الصغيرة
-MiniBall.Parent = ScreenGui
-MiniBall.Size = UDim2.new(0, 50, 0, 50)
-MiniBall.Position = UDim2.new(0.1, 0, 0.3, 0)
-MiniBall.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
-MiniBall.Text = "A"
-MiniBall.TextColor3 = Color3.new(1, 1, 1)
-MiniBall.Visible = false
-MiniBall.Active = true
-MiniBall.Draggable = true
-UICorner.CornerRadius = Enum.CornerRadius.new(1, 0)
-UICorner.Parent = MiniBall
-
--- العنوان وزر التصغير
 Title.Parent = MainFrame
-Title.Size = UDim2.new(0.8, 0, 0, 35)
-Title.Text = "Abdullah Hub v2"
+Title.Size = UDim2.new(1, 0, 0, 35)
+Title.Text = "Abdullah Hub"
 Title.TextColor3 = Color3.new(1, 1, 1)
-Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Title.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
 
-MinimizeButton.Parent = MainFrame
-MinimizeButton.Size = UDim2.new(0.2, 0, 0, 35)
-MinimizeButton.Position = UDim2.new(0.8, 0, 0, 0)
-MinimizeButton.Text = "-"
-MinimizeButton.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+local CloseBtn = Instance.new("TextButton", MainFrame)
+CloseBtn.Size = UDim2.new(0, 30, 0, 30)
+CloseBtn.Position = UDim2.new(1, -30, 0, 0)
+CloseBtn.Text = "-"
+CloseBtn.BackgroundColor3 = Color3.new(1, 0, 0)
+CloseBtn.TextColor3 = Color3.new(1, 1, 1)
 
--- الأزرار والوظائف
-local function createButton(name, pos, parent)
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(0.9, 0, 0, 30)
-    btn.Position = pos
-    btn.Text = name
-    btn.Parent = parent
-    btn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    btn.TextColor3 = Color3.new(1, 1, 1)
-    return btn
-end
-
-local SpeedLabel = createButton("Speed (Enter)", UDim2.new(0.05, 0, 0.15, 0), MainFrame)
-SpeedInput.Parent = SpeedLabel
-SpeedInput.Size = UDim2.new(0.4, 0, 1, 0)
-SpeedInput.Position = UDim2.new(1, -75, 0, 0)
+SpeedInput.Parent = MainFrame
+SpeedInput.PlaceholderText = "السرعة"
+SpeedInput.Size = UDim2.new(0.8, 0, 0, 30)
+SpeedInput.Position = UDim2.new(0.1, 0, 0.2, 0)
 SpeedInput.Text = "16"
 
-local FlyBtn = createButton("الطيران: OFF", UDim2.new(0.05, 0, 0.3, 0), MainFrame)
-local FlingBtn = createButton("WalkFling: OFF", UDim2.new(0.05, 0, 0.42, 0), MainFrame)
-local NoclipBtn = createButton("اختراق الحائط: OFF", UDim2.new(0.05, 0, 0.54, 0), MainFrame)
-local ESPBtn = createButton("ESP: OFF", UDim2.new(0.05, 0, 0.66, 0), MainFrame)
-local InfJumpBtn = createButton("قفز لا نهائي: OFF", UDim2.new(0.05, 0, 0.78, 0), MainFrame)
+JumpInput.Parent = MainFrame
+JumpInput.PlaceholderText = "القفز"
+JumpInput.Size = UDim2.new(0.8, 0, 0, 30)
+JumpInput.Position = UDim2.new(0.1, 0, 0.35, 0)
+JumpInput.Text = "50"
 
--- منطق التصغير للكرة
-MinimizeButton.MouseButton1Click:Connect(function()
+NoclipBtn.Parent = MainFrame
+NoclipBtn.Size = UDim2.new(0.8, 0, 0, 30)
+NoclipBtn.Position = UDim2.new(0.1, 0, 0.5, 0)
+NoclipBtn.Text = "اختراق: OFF"
+
+ESPBtn.Parent = MainFrame
+ESPBtn.Size = UDim2.new(0.8, 0, 0, 30)
+ESPBtn.Position = UDim2.new(0.1, 0, 0.65, 0)
+ESPBtn.Text = "كاشف: OFF"
+
+InfJumpBtn.Parent = MainFrame
+InfJumpBtn.Size = UDim2.new(0.8, 0, 0, 30)
+InfJumpBtn.Position = UDim2.new(0.1, 0, 0.8, 0)
+InfJumpBtn.Text = "قفز مستمر: OFF"
+
+MiniBall.Parent = ScreenGui
+MiniBall.Size = UDim2.new(0, 50, 0, 50)
+MiniBall.Visible = false
+MiniBall.Text = "A"
+MiniBall.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+MiniBall.TextColor3 = Color3.new(1, 1, 1)
+MiniBall.Draggable = true
+MiniCorner.CornerRadius = Enum.CornerRadius.new(1, 0)
+MiniCorner.Parent = MiniBall
+
+local noclip = false
+local esp = false
+local infjump = false
+
+CloseBtn.MouseButton1Click:Connect(function()
     MainFrame.Visible = false
-    MiniBall.Position = MainFrame.Position
     MiniBall.Visible = true
+    MiniBall.Position = MainFrame.Position
 end)
 
 MiniBall.MouseButton1Click:Connect(function()
     MainFrame.Visible = true
-    MainFrame.Position = MiniBall.Position
     MiniBall.Visible = false
 end)
 
--- وظيفة السرعة
 SpeedInput.FocusLost:Connect(function()
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = tonumber(SpeedInput.Text) or 16
+    Player.Character.Humanoid.WalkSpeed = tonumber(SpeedInput.Text) or 16
 end)
 
--- وظيفة Noclip (الاختراق)
-local noclip = false
+JumpInput.FocusLost:Connect(function()
+    Player.Character.Humanoid.JumpPower = tonumber(JumpInput.Text) or 50
+end)
+
+NoclipBtn.MouseButton1Click:Connect(function()
+    noclip = not noclip
+    NoclipBtn.Text = noclip and "اختراق: ON" or "اختراق: OFF"
+end)
+
 game:GetService("RunService").Stepped:Connect(function()
-    if noclip then
-        for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+    if noclip and Player.Character then
+        for _, v in pairs(Player.Character:GetDescendants()) do
             if v:IsA("BasePart") then v.CanCollide = false end
         end
     end
 end)
-NoclipBtn.MouseButton1Click:Connect(function()
-    noclip = not noclip
-    NoclipBtn.Text = noclip and "اختراق الحائط: ON" or "اختراق الحائط: OFF"
-end)
 
--- وظيفة ESP البسيطة
 ESPBtn.MouseButton1Click:Connect(function()
+    esp = not esp
+    ESPBtn.Text = esp and "كاشف: ON" or "كاشف: OFF"
     for _, p in pairs(game.Players:GetPlayers()) do
-        if p ~= game.Players.LocalPlayer and p.Character then
-            local highlight = Instance.new("Highlight", p.Character)
-            highlight.FillColor = Color3.new(1, 0, 0)
+        if p ~= Player and p.Character then
+            if esp then
+                local h = Instance.new("Highlight", p.Character)
+                h.Name = "AbdullahESP"
+            else
+                if p.Character:FindFirstChild("AbdullahESP") then p.Character.AbdullahESP:Destroy() end
+            end
         end
     end
-    ESPBtn.Text = "ESP: ON"
 end)
 
--- ملاحظة: أوامر الطيران و Fling تتطلب سكربتات معقدة، لذا وضعت لك الأساس البرمجي لها هنا لتفعيلها.
+InfJumpBtn.MouseButton1Click:Connect(function()
+    infjump = not infjump
+    InfJumpBtn.Text = infjump and "قفز مستمر: ON" or "قفز مستمر: OFF"
+end)
+
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if infjump and Player.Character then
+        Player.Character.Humanoid:ChangeState("Jumping")
+    end
+end)
